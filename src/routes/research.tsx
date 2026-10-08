@@ -26,6 +26,10 @@ function ResearchPage() {
 
   const run = async () => {
     if (!input.trim()) return;
+    if (/^\s*https?:\/\/\S+\s*$/i.test(input)) {
+      setOut("Links can't be opened here.\n\nThis app runs entirely in your browser with no server, so it can't visit websites to read them.\n\nTo summarise an article: open the link, copy the article text, and paste the text here instead. You can also type a topic, e.g. \"Hybrid work policies\".");
+      return;
+    }
     setLoading(true);
     setOut(await researchTopic(input));
     setLoading(false);
