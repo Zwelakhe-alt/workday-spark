@@ -51,9 +51,8 @@ export function AppShell({ title, subtitle, children }: { title: string; subtitl
         </header>
         <main className="flex-1 p-5 md:p-8">{children}</main>
         <footer className="border-t bg-card px-5 py-4 text-xs text-muted-foreground md:px-8">
-          <strong className="text-foreground">Responsible AI:</strong> Responses are generated automatically and may be
-          inaccurate or incomplete. Always review, edit and verify content before using it. Do not enter confidential
-          or personal information. You remain responsible for decisions made with this tool.
+          <strong className="text-foreground">Responsible AI:</strong> Responses are AI generated and may be inaccurate.
+          Review all output before use and avoid sharing sensitive personal or company data.
         </footer>
       </div>
     </div>
