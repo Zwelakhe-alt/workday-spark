@@ -49,7 +49,7 @@ export async function researchTopic(input: string): Promise<string> {
   const text = input.trim();
   const sentences = text.split(/(?<=[.!?])\s+/).filter((s) => s.length > 20);
   const isArticle = sentences.length >= 3;
-  const topic = isArticle ? sentences[0].slice(0, 80) : text;
+  const topic = isArticle ? (sentences[0] ?? "").slice(0, 80) : text;
 
   const words = text.toLowerCase().match(/[a-z]{5,}/g) ?? [];
   const freq: Record<string, number> = {};
