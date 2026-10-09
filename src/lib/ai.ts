@@ -143,7 +143,7 @@ ${(match ? match.recs : [`Identify what "${terms[0]}" means for your team specif
 
   const m = match;
   const points = m
-    ? m.insights.map((x, k) => k === 0 ? `${x} This is central to ${topic}.` : x)
+    ? m.insights.slice(0, 3)
     : [
         `Clarify what success looks like for ${topic}: define 2–3 measurable goals before investing time or budget.`,
         `Map who ${topic} affects — teams, customers and partners — and gather their input early.`,
