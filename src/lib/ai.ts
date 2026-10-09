@@ -47,6 +47,14 @@ export async function generateEmail(o: {
 type Topic = { re: RegExp; name: string; summary: string; insights: string[]; recs: string[] };
 
 const TOPICS: Topic[] = [
+  { re: /health|medical|hospital|patient|clinic|doctor|nurs/, name: "healthcare",
+    summary: "Healthcare organisations balance patient outcomes, staff capacity and strict regulation. New tools must prove clinical safety and protect patient data.",
+    insights: ["Patient safety and clinical accuracy must be validated before any new tool or process is adopted.", "Patient records are highly sensitive, so privacy rules (e.g. POPIA, HIPAA) shape every decision.", "Reducing admin load on clinicians frees time for direct patient care."],
+    recs: ["Pilot in one department with clinician oversight.", "Run a data-privacy impact assessment.", "Track patient outcomes and staff time saved."] },
+  { re: /educat|school|teach|student|learning|training|universit/, name: "education & training",
+    summary: "Effective learning programmes combine clear objectives, practice and feedback. Engagement drops quickly when content is passive or irrelevant.",
+    insights: ["Short, practical modules are completed far more often than long courses.", "Learners retain more when they apply skills immediately.", "Measuring behaviour change matters more than completion rates."],
+    recs: ["Define 3 learning outcomes.", "Break content into 10–15 minute modules.", "Measure skills before and after."] },
   { re: /hybrid|remote|work from home|wfh|office return/, name: "hybrid & remote work",
     summary: "Flexible work models mix office and remote days. Done well, they raise retention and focus time; done poorly, they fragment collaboration and create proximity bias.",
     insights: ["Teams agreeing shared 'anchor days' collaborate better than fully ad-hoc schedules.", "Async-first documentation reduces meeting load across locations.", "Managers need clear output-based goals rather than visibility-based judgement."],
@@ -133,28 +141,17 @@ ${(match ? match.recs : [`Identify what "${terms[0]}" means for your team specif
 4. Verify facts with trusted, up-to-date sources before decisions.`;
   }
 
-  if (match) {
-    return `## Summary
-Topic: ${cap(topic)} (${match.name}).
-${match.summary}
+  const m = match;
+  const points = m
+    ? m.insights.slice(0, 3)
+    : [
+        `Clarify what success looks like for ${topic}: define 2–3 measurable goals before investing time or budget.`,
+        `Map who ${topic} affects — teams, customers and partners — and gather their input early.`,
+        `Start ${topic} with a small pilot, track results, and verify facts with trusted, up-to-date sources.`,
+      ];
+  return `## ${cap(topic)}${m ? ` (${m.name})` : ""}
 
-## Key Insights
-${match.insights.map((i) => `- ${i}`).join("\n")}
-
-## Recommendations
-${match.recs.map((r, i) => `${i + 1}. ${r}`).join("\n")}
-${match.recs.length + 1}. Verify facts with trusted, up-to-date sources before decisions.`;
-  }
-
-  return `## Summary
-"${cap(topic)}" isn't in the built-in topic library, so a detailed summary isn't available offline.
-
-Covered topics: ${TOPICS.map((t) => t.name).join(", ")}.
-
-## How to get a better result
-1. Paste the article or notes about "${topic}" here — the assistant will extract the main points and figures.
-2. Or rephrase using a covered topic, e.g. "${topic} and project management".
-3. Verify facts with trusted, up-to-date sources before decisions.`;
+${points.map((x) => `- ${x}`).join("\n")}`;
 }
 
 type Intent = { re: RegExp; reply: string };
